@@ -35,13 +35,18 @@ flagged as `NOT NULL` and have de default value, it should be used to fill the
 
 That's what AutoDefaults is for.
 
+Simply add it to your model:
+
+``` ruby
+class Article < ActiveRecord::Base
+  include ActiveRecord::AutoDefaults
+end
+```
+
+And then try to create an article:
+
 ``` ruby
 Article.create(title: nil, body: nil)
-+----+-------+------+
-| id | title | body |
-+----+-------+------+
-| 1  |       |      |
-+----+-------+------+
 ```
 
 You will no longer get a SQL error telling you that a field should not be `NULL`
@@ -49,6 +54,15 @@ and as a null value.
 
 This avoids duplicating the schema instructions in a `set_defaults` callback to
 set this values before validation.
+
+### Add it to every ActiveRecord model
+
+AutoDefaults provides a generator to use it on any AutoDefaults model.
+
+```
+rails generate auto_defaults:install
+    create config/initializers/activerecord-auto_defaults.rb
+```
 
 ## Contributing
 
